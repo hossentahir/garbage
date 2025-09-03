@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>frontend data passing..</title>
+</head>
+<body>
+    
+    <form action="">
+        
+        <input type="text" placeholder ="name" id="name"><br>
+        <input type="email" placeholder ="email" id="email"><br>
+        <input type="password" placeholder ="pass" id="pass"><br>
+        <button type="button" onclick="show()">submit</button>
+    </form>
+
+    <table border="1" id="tid">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+    </table>
+
+    <script>
+        function show(){
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var pass = document.getElementById("pass").value;
+
+            var tbl = document.getElementById("tid");
+            tbl.innerHTML += `<tr>
+                                <td>${name}</td>
+                                <td>${email}</td>
+                                <td>${pass}</td>
+                              </tr>`;
+            document.getElementById("name").value="";
+            document.getElementById("email").value="";
+            document.getElementById("pass").value="";
+             
+        }
+    </script>
+</body>
+</html>
