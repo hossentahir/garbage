@@ -1,60 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>frontend data passing..</title>
+  <meta charset="UTF-8">
+  <title>CRUD with HTML & JS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 60%;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    button {
+      margin: 2px;
+      padding: 5px 10px;
+    }
+  </style>
 </head>
 <body>
-    
-    <form action="">
-        
-        <input type="text" placeholder ="name" id="name"><br>
-        <input type="email" placeholder ="email" id="email"><br>
-        <input type="password" placeholder ="pass" id="pass"><br>
-        <button type="button" onclick="show()">submit</button>
-    </form>
 
-    <table border="1" id="tid">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Password</th>
-            </tr>
-    </table>
+  <h2>Simple CRUD with HTML + JS</h2>
 
-    <script>
-        function editdata(){
+  <!-- Input Form -->
+  <input type="text" id="name" placeholder="Enter name">
+  <input type="number" id="age" placeholder="Enter age">
+  <button onclick="addData()">Add</button>
 
-        }
-        function deletedata(){
+  <button type="button" onclick="displayData()">Display</button>
+  <button type="button" onclick="invisibleData()">Invisible</button>
 
-        }
-        var arr=[];
-        
-        function show(){
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var pass = document.getElementById("pass").value;
-            arr.push({name, email, pass});
-            
-            arr.forEach((item, index)=>{
-                var tbl = document.getElementById("tid");
-                tbl.innerHTML += `<tr>
-                                <td>${index + 1}</td>
-                                <td>${item.name}</td>
-                                <td>${email}</td>
-                                <td>${pass}</td>
-                                <td><button onclick="edit()"type="button">Edit</button></td>
-                                <td><button onclick="delete()"type="button">Delete</button></td> 
-                              </tr>`;
-            });
-            
-            document.getElementById("name").value="";
-            document.getElementById("email").value="";
-            document.getElementById("pass").value="";
-             
-        }
-    </script>
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <script>
+    let data = []; // Array to store objects
+    let editIndex = null;
+
+    // Add or Update Data
+    function addData() {
+      let name = document.getElementById("name").value;
+      let age = document.getElementById("age").value;
+
+      if (name === "" || age === "") {
+        alert("Please enter both name and age!");
+        return;
+      }
+
+      if (editIndex === null) {
+        // Create
+        data.push({ name, age });
+      } else {
+        // Update
+        data[editIndex] = { name, age };
+        editIndex = null;
+      }
+
+      document.getElementById("name").value = "";
+      document.getElementById("age").value = "";
+
+      
+    }
+
+    // Show Data in Table
+    function displayData() {
+      let tableBody = document.getElementById("table-body");
+      tableBody.innerHTML = "";
+
+      data.forEach((item, index) => {
+        tableBody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${item.name}</td>
+            <td>${item.age}</td>
+            <td>
+              <button onclick="editData(${index})">Edit</button>
+              <button onclick="deleteData(${index})">Delete</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function invisibleData(){
+        let tableBody = document.getElementById("table-body");
+        tableBody.innerHTML = "";
+    }
+
+    // Edit Data
+    function editData(index) {
+      document.getElementById("name").value = data[index].name;
+      document.getElementById("age").value = data[index].age;
+      editIndex = index;
+    }
+
+    // Delete Data
+    function deleteData(index) {
+      data.splice(index, 1);
+      displayData();
+    }
+  </script>
+
 </body>
 </html>
