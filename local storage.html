@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>local storage</title>
+</head>
+<body>
+    
+    <script>
+        localStorage.setItem('greeting h', 'Hello');
+        console.log(localStorage.getItem('greeting h')); // "Hello"
+
+        const user = { id: 1, name: 'Selim' };
+        localStorage.setItem('user', JSON.stringify(user));
+        console.log(JSON.parse(localStorage.getItem('user')));
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple CRUD with LocalStorage</title>
+</head>
+<body>
+  <h2>LocalStorage CRUD Example</h2>
+
+  <!-- Input Form -->
+  <input type="text" id="name" placeholder="Enter name">
+  <button onclick="addData()">Add</button>
+  <button onclick="viewData()">View all</button>
+  <button onclick="invisibleData()">Invisible</button> 
+
+  <h3>Stored Data:</h3>
+  <ul id="dataList"></ul>
+
+  <script>
+    
+    function viewData(){
+      showData();
+    }
+    function invisibleData(){
+      let list = document.getElementById("dataList");
+
+      list.innerHTML = ""; // Clear old list
+    }
+    // Step 1: Show data when page loads
+    window.onload = showData(); 
+
+    // Step 2: Add data to localStorage
+    function addData() {
+      let name = document.getElementById("name").value;
+
+      if (name === "") {
+        alert("Please enter a name");
+        return;
+      }
+
+      // Get old data
+      let data = JSON.parse(localStorage.getItem("names")) || [];
+
+      // Add new name
+      data.push(name);
+
+      // Save back to localStorage
+      localStorage.setItem("names", JSON.stringify(data));
+
+      // Clear input
+      document.getElementById("name").value = "";
+
+      // Show updated list
+      showData();
+    }
+
+    // Step 3: Show data from localStorage
+    function showData() {
+      let data = JSON.parse(localStorage.getItem("names")) || [];
+      let list = document.getElementById("dataList");
+
+      list.innerHTML = ""; // Clear old list
+
+      data.forEach((item, index) => {
+        list.innerHTML += `
+          <li>
+            ${item} 
+            <button onclick="editData(${index})">Edit</button>
+            <button onclick="deleteData(${index})">Delete</button>
+          </li>`;
+      });
+    }
+
+    // Step 4: Delete data
+    function deleteData(index) {
+      let data = JSON.parse(localStorage.getItem("names")) || [];
+      data.splice(index, 1); // Remove 1 item
+      localStorage.setItem("names", JSON.stringify(data));
+      showData();
+    }
+
+    // Step 5: Edit data
+    function editData(index) {
+      let data = JSON.parse(localStorage.getItem("names")) || [];
+      let newName = prompt("Enter new name", data[index]);
+
+      if (newName !== null && newName !== "") {
+        data[index] = newName;
+        localStorage.setItem("names", JSON.stringify(data));
+        showData();
+      }
+    }
+  </script>
+</body>
+</html>
